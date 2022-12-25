@@ -59,6 +59,10 @@ body {
   margin: 4px;
 }
 
+.button:hover {
+  background-color: rgb(128, 128, 128);
+}
+
 .btn-start {
   background-color: rgb(133, 100, 185);
 }
