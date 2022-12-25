@@ -2,6 +2,20 @@
   display: none;
 }
 
+body {
+  background-color: black;
+  font-family: "Poppins", sans-serif;
+  color: white;
+}
+
+.label-main-timer {
+  font-size: 4em;
+}
+
+.label-lap-timer {
+  font-size: 2em;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -14,13 +28,43 @@
   width: 40%;
   display: flex;
   justify-content: space-around;
+  margin: 10px;
 }
 
 .laps-container {
   width: 40%;
+  height: 60%;
 }
 
 .lap {
   display: flex;
   justify-content: space-around;
+  margin: 10px;
+}
+
+.btn-container {
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.button {
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  padding: 20px 40px;
+  color: white;
+  background-color: rgb(153, 152, 152);
+}
+
+.btn-start {
+  background-color: rgb(133, 101, 185);
+}
+
+.btn-stop {
+  background-color: rgb(163, 50, 36);
+}
+
+.btn-resume {
+  background-color: rgb(133, 101, 185);
 }
