@@ -60,13 +60,25 @@ body {
 }
 
 .btn-start {
-  background-color: rgb(133, 101, 185);
+  background-color: rgb(133, 100, 185);
+}
+
+.btn-start:hover {
+  background-color: rgb(133, 80, 185);
 }
 
 .btn-stop {
-  background-color: rgb(163, 50, 36);
+  background-color: rgb(160, 50, 36);
+}
+
+.btn-stop:hover {
+  background-color: rgb(130, 50, 36);
 }
 
 .btn-resume {
   background-color: rgb(133, 101, 185);
+}
+
+.btn-resume:hover {
+  background-color: rgb(133, 80, 185);
 }
