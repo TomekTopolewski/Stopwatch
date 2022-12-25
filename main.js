@@ -13,13 +13,13 @@ const containerLaps = document.querySelector(".laps-container");
 const mainTimer = {
   seconds: 0,
   label: labelTime,
-  handler: "",
+  handler: 0,
 };
 
 const lapTimer = {
   seconds: 0,
   label: labelLapTime,
-  handler: "",
+  handler: 0,
 };
 
 const tick = function (timer) {
@@ -104,7 +104,7 @@ btnLap.addEventListener("click", function () {
 
 btnResume.addEventListener("click", function () {
   mainTimer.handler = setInterval(tick, 1000, mainTimer);
-  lapTimer.handler = setInterval(tick, 1000, lapTimer);
+  if (lapTimer.handler) lapTimer.handler = setInterval(tick, 1000, lapTimer);
 
   btnStop.classList.remove("hidden");
   btnLap.classList.remove("hidden");
