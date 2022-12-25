@@ -6,6 +6,7 @@ body {
   background-color: black;
   font-family: "Poppins", sans-serif;
   color: white;
+  margin: 0px;
 }
 
 .label-main-timer {
@@ -55,6 +56,7 @@ body {
   padding: 20px 40px;
   color: white;
   background-color: rgb(153, 152, 152);
+  margin: 4px;
 }
 
 .btn-start {
