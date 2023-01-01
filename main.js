@@ -11,30 +11,32 @@ const btnReset = document.querySelector(".btn-reset");
 const containerLaps = document.querySelector(".laps-container");
 
 const mainTimer = {
-  seconds: 0,
+  miliSeconds: 0,
   label: labelTime,
   handler: 0,
 };
 
 const lapTimer = {
-  seconds: 0,
+  miliSeconds: 0,
   label: labelLapTime,
   handler: 0,
 };
 
 const tick = function (timer) {
-  timer.seconds++;
-  const minute = Math.trunc(timer.seconds / 60);
-  const second = timer.seconds % 60;
+  timer.miliSeconds += 100;
 
-  const strMinute = String(minute).padStart(2, 0);
-  const strSecond = String(second).padStart(2, 0);
+  const minutes = Math.trunc(timer.miliSeconds / 60000);
+  const seconds = ((timer.miliSeconds % 60000) / 1000).toFixed(2, 0);
 
-  timer.label.textContent = `${strMinute}:${strSecond}`;
+  const strMinutes = String(minutes).padStart(2, 0);
+  const strSeconds = String(seconds).split(".")[0].padStart(2, 0);
+  const strPrecision = String(seconds).split(".")[1];
+
+  timer.label.textContent = `${strMinutes}:${strSeconds}.${strPrecision}`;
 };
 
 const reset = function (timer) {
-  timer.seconds = 0;
+  timer.miliSeconds = 0;
   timer.label.textContent = "00:00";
 };
 
@@ -44,7 +46,7 @@ reset(mainTimer);
 reset(lapTimer);
 
 btnStart.addEventListener("click", function () {
-  mainTimer.handler = setInterval(tick, 1000, mainTimer);
+  mainTimer.handler = setInterval(tick, 100, mainTimer);
 
   btnStart.classList.add("hidden");
   btnStop.classList.remove("hidden");
@@ -63,7 +65,7 @@ btnStop.addEventListener("click", function () {
 
 btnLap.addEventListener("click", function () {
   // If exist, write lap time into laps array
-  if (lapTimer.seconds === 0) {
+  if (lapTimer.miliSeconds === 0) {
     laps.push({
       lapTime: mainTimer.label.textContent,
       overallTime: mainTimer.label.textContent,
@@ -82,7 +84,7 @@ btnLap.addEventListener("click", function () {
   }
 
   // Create a new lap timer
-  lapTimer.handler = setInterval(tick, 1000, lapTimer);
+  lapTimer.handler = setInterval(tick, 100, lapTimer);
 
   // Clear UI
   containerLaps.textContent = "";
@@ -103,7 +105,7 @@ btnLap.addEventListener("click", function () {
 });
 
 btnResume.addEventListener("click", function () {
-  mainTimer.handler = setInterval(tick, 1000, mainTimer);
+  mainTimer.handler = setInterval(tick, 100, mainTimer);
   if (lapTimer.handler) lapTimer.handler = setInterval(tick, 1000, lapTimer);
 
   btnStop.classList.remove("hidden");
