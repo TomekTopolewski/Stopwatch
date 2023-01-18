@@ -10,43 +10,42 @@ const btnReset = document.querySelector(".btn-reset");
 
 const containerLaps = document.querySelector(".laps-container");
 
-const mainTimer = {
-  miliSeconds: 0,
-  label: labelTime,
-  handler: 0,
-};
+class Timer {
+  constructor(label, miliSeconds, handler) {
+    this.label = label;
+    this.miliSeconds = miliSeconds;
+    this.handler = handler;
+  }
 
-const lapTimer = {
-  miliSeconds: 0,
-  label: labelLapTime,
-  handler: 0,
-};
+  tick() {
+    this.miliSeconds += 100;
 
-const tick = function (timer) {
-  timer.miliSeconds += 100;
+    const minutes = Math.trunc(this.miliSeconds / 60000);
+    const seconds = ((this.miliSeconds % 60000) / 1000).toFixed(2, 0);
 
-  const minutes = Math.trunc(timer.miliSeconds / 60000);
-  const seconds = ((timer.miliSeconds % 60000) / 1000).toFixed(2, 0);
+    const strMinutes = String(minutes).padStart(2, 0);
+    const strSeconds = String(seconds).split(".")[0].padStart(2, 0);
+    const strPrecision = String(seconds).split(".")[1];
 
-  const strMinutes = String(minutes).padStart(2, 0);
-  const strSeconds = String(seconds).split(".")[0].padStart(2, 0);
-  const strPrecision = String(seconds).split(".")[1];
+    this.label.textContent = `${strMinutes}:${strSeconds}.${strPrecision}`;
+  }
 
-  timer.label.textContent = `${strMinutes}:${strSeconds}.${strPrecision}`;
-};
+  reset() {
+    this.miliSeconds = 0;
+    this.label.textContent = "00:00.00";
+  }
+}
 
-const reset = function (timer) {
-  timer.miliSeconds = 0;
-  timer.label.textContent = "00:00";
-};
+const mainTimer = new Timer(labelTime, 0, 0);
+const lapTimer = new Timer(labelLapTime, 0, 0);
+
+mainTimer.reset();
+lapTimer.reset();
 
 const laps = [];
 
-reset(mainTimer);
-reset(lapTimer);
-
 btnStart.addEventListener("click", function () {
-  mainTimer.handler = setInterval(tick, 100, mainTimer);
+  mainTimer.handler = setInterval(mainTimer.tick.bind(mainTimer), 100);
 
   btnStart.classList.add("hidden");
   btnStop.classList.remove("hidden");
@@ -80,17 +79,14 @@ btnLap.addEventListener("click", function () {
   // Clear lap timer
   if (lapTimer.handler) {
     clearInterval(lapTimer.handler);
-    reset(lapTimer);
+    lapTimer.reset();
   }
 
   // Create a new lap timer
-  lapTimer.handler = setInterval(tick, 100, lapTimer);
+  lapTimer.handler = setInterval(lapTimer.tick.bind(lapTimer), 100);
 
   // Clear UI
   containerLaps.textContent = "";
-
-  // Show header
-  headerLap.classList.remove("hidden");
 
   // Display laps array
   laps.forEach(function (lap, i) {
@@ -105,8 +101,10 @@ btnLap.addEventListener("click", function () {
 });
 
 btnResume.addEventListener("click", function () {
-  mainTimer.handler = setInterval(tick, 100, mainTimer);
-  if (lapTimer.handler) lapTimer.handler = setInterval(tick, 1000, lapTimer);
+  mainTimer.handler = setInterval(mainTimer.tick.bind(mainTimer), 100);
+
+  if (lapTimer.handler)
+    lapTimer.handler = setInterval(lapTimer.tick.bind(lapTimer), 100);
 
   btnStop.classList.remove("hidden");
   btnLap.classList.remove("hidden");
@@ -117,10 +115,10 @@ btnResume.addEventListener("click", function () {
 
 btnReset.addEventListener("click", function () {
   clearInterval(mainTimer.handler);
-  reset(mainTimer);
-
   clearInterval(lapTimer.handler);
-  reset(lapTimer);
+
+  mainTimer.reset();
+  lapTimer.reset();
 
   laps.splice(0);
   containerLaps.textContent = "";
