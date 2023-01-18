@@ -64,7 +64,7 @@ btnStop.addEventListener("click", function () {
 
 btnLap.addEventListener("click", function () {
   // If exist, write lap time into laps array
-  if (lapTimer.miliSeconds === 0) {
+  if (!lapTimer.miliSeconds) {
     laps.push({
       lapTime: mainTimer.label.textContent,
       overallTime: mainTimer.label.textContent,
